@@ -8,3 +8,16 @@
 # silly Mac filesystem
 *.DS_Store*
 *._*
+
+/target
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port
+.hgignore
+.hg/
+
