@@ -145,7 +145,7 @@ Try to complete the first set of Koans `01_equalities.clj`
 
 # Common data structures
 
-When working in Clojure you'll encounter 3 **do we want to change this to 4 or remove sets?** common types of data structures.
+When working in Clojure you'll encounter 4 common types of data structures.
 
 ## Lists
 
@@ -185,7 +185,7 @@ user=> (nth (list 1 2 3) 0)
 1
 ```
 
-Finally Clojure has a shorthand for defining lists, instead of calling the list function we can
+Finally Clojure has a shorthand for defining lists; instead of calling the list function we can
 use the following:
 
 ```clojure
@@ -428,7 +428,7 @@ We can also use a shorthand to combine `def` and `fn` which is `defn`.
 
 Functional approach to programming means that a solution is constructed as a composition of functions. Each function returns a new entity that's one step closer to the desired results. This is different from the more common imperative approach that keeps changing data and variables in memory (often using loops) until the result is constructed or determined. 
 
-For example, consider determining if a string is a palindrome. In a traditional approach one would have a loop in which an index is changing as the string is being traversed that compares the string characters to each other. In a functional appoach one would just compare the string to its reverse and return the result: 
+For example, consider determining if a string is a palindrome. In a traditional approach one would have a loop in which an index is changing as the string is being traversed that compares string characters to each other. In a functional appoach one would just compare the string to its reverse and return the result: 
 
 ```clojure
 user=> (defn is-palindrome? [s] (= s (clojure.string/reverse s)))
@@ -533,7 +533,7 @@ Note that the `and` cannot be evaluated until the recursive call returns, so it 
 ##### Second call `(holds-for-all? odd? [3 4])`
 
 Now let's see what happens in the second call. 
-Since the first element of the vector is odd, the expression `(odd? (first [1 3 4]))` returns true. In order to determine the result of the `and`, we need to compute the result of the second part, which is
+In order to determine the result of the `and` in the first call, we need to compute the result of the second part, which is
 ```clojure
 (holds-for-all? odd? [3 4])
 ```
@@ -555,12 +555,14 @@ The third call to the fucntion is now done and returns `false` to the second cal
 
 Walking through a recursive function helps you understand how it works. However, you don't have to do it every time you write a recursive function: typically just breaking down the problem into a base case and a recursive step and constructing the results in both cases is enough. 
 
+##### Details
+
 There are a few details that we have skipped over in order to emphasize the main ideas. Feel free to read about these details now, or come back to them later. 
 
-1. You may be wondering what happens if the first even element is not in the last position of the vector: will the function go all the way to the end, or start returing earlier? The answer is: it will return earlier because `and` what's called *short-circuiting*: it evaluates left to right, and stops and returns as soon as it knows the answer. Thus `(and false <anything>)` returns `false` immediately. If the first element of a vector is even, the function will return without going into the recursive call since `and` already knows that the answer is `false`. In general, however, you need to be careful since many ways of using the result of a recursive call are not short-circuiting. 
+1. You may be wondering what happens if the first even element is not in the last position of the vector: will the function go all the way to the end, or start returing earlier? The answer is: it will return earlier because `and` is what's called *short-circuiting*: it evaluates left to right, and stops and returns as soon as it knows the answer. Thus `(and false <anything>)` returns `false` immediately. If the first element of a vector is even, the function will return without going into the recursive call since `and` already knows that the answer is `false`. In general, however, you need to be careful since many ways of using the result of a recursive call are not short-circuiting. 
 2. Our base case for the function is a one-element vector (its rest is empty). However, typically such functions are written with the base case being just an empty vector. You may be wondering what should be returned for an empty vector: do all its elements satisfy the condition? For instance, are they all odd? The answer is, yes. If there are no elements in a vector, all its elements satisfy any property whatsoever (they are odd, even, blue, tasty....) since there are no elements that fail the condition. On your own, try to rewrite the function with an empty vector base case. 
-3. We also simplified one important thing: we keep referring to the argument of the function as a vector, but in fact any sequence of elements will be fine (a list will do, for instance). Moreover, taking the rest of a vector gives you a sequence of elements, but not a vector, so after the first call we will be passing a sequence, not a vector to all subsequent ones! This is not important for understanding how recursion works in this case, but will be useful to know for the future. 
-4. Finally, you may be wondering: isn't recursion very inefficient? We have a bunch of `and`s waiting for results of computations, doesn't it take memory and time to manage? The answer is, it may be inefficient if one isn't careful. However, most functional languages use a mechanism known as *tail recursion* (and a few other tricks) to implement recursion efficiently. We are not going into details of this here. 
+3. We have also simplified one important thing: we keep referring to the argument of the function as a vector, but in fact any sequence of elements will be fine (a list will do, for instance). Moreover, taking the rest of a vector gives you a sequence of elements, but not a vector, so after the first call we will be passing a sequence, not a vector to all subsequent ones! This is not important for understanding how recursion works in this case, but will be useful to know for the future. 
+4. Finally, you may be wondering: isn't recursion very inefficient? We have a bunch of `and` expressions waiting for results of computations, doesn't it take memory and time to manage? The answer is, it may be inefficient if one isn't careful. However, most functional languages use a mechanism known as *tail recursion* (and a few other tricks) to implement recursion efficiently. We are not going into the details of this here. 
 
 ## Higher-order functions
 
@@ -638,13 +640,6 @@ Some helpful functions:
 
 `range` produces a sequence of all integers in a given range. Once again, consult [its documentation](https://clojuredocs.org/clojure.core/range) for details. 
 
-Note that your function just need to return the number of palindromes, not palindromes themselves. 
+Note that your function just need to return the number of palindromes, not the palindromes themselves. 
 
-# Further resources
-
-- You are welcome to continue the koans. You might want to look into other resources (see below) for more advanced ones. There is also a series of youtube videos helping out with the koans: [https://www.youtube.com/playlist?list=PL1p6TgkbKXqyOwq6iSkce_EY5YWFHciHt](https://www.youtube.com/playlist?list=PL1p6TgkbKXqyOwq6iSkce_EY5YWFHciHt)
-- Another excellent online source of Clojure problems of different levels is [https://www.4clojure.com/](https://www.4clojure.com/)
-- As you are working on the problems, you can look up common Clojure functions with examples and discussion at community maintained Clojure documentation: [https://clojuredocs.org/quickref](https://clojuredocs.org/quickref). 
-- Clojure cheat sheet at clojure.org also gives you a brief well-organzied list of most common functions with links to documentation: [http://clojure.org/cheatsheet](http://clojure.org/cheatsheet)
-- Boston Clojure meetup has put together a nice list of resources, beginners and more advanced: [https://bostonclojuregroup.hackpad.com/Learning-Clojure-B3gXhvDJmi6](https://bostonclojuregroup.hackpad.com/Learning-Clojure-B3gXhvDJmi6). In particular, it has a very helpful list of most recent Clojure books for beginners: [https://bostonclojuregroup.hackpad.com/Learning-Clojure-B3gXhvDJmi6#:h=Books](https://bostonclojuregroup.hackpad.com/Learning-Clojure-B3gXhvDJmi6#:h=Books).  
 
